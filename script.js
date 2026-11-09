@@ -16,6 +16,7 @@ function fillDropdown(results) {
     const defaultText = document.createElement("option");
     defaultText.textContent = "Select a show";
     defaultText.value = "";
+    defaultText.id = "defaultSelect";
     showSelect.appendChild(defaultText);
 
     for (let r of results) {
@@ -72,6 +73,7 @@ function displayDetails(show) {
 
     const overview = document.createElement("p");
     overview.textContent = show.overview;
+    overview.id = "overview";
 
     const genres = document.createElement("h2");
     for (let g in show.genres) {
@@ -134,6 +136,8 @@ showSelect.addEventListener("change", function () {
     if (id === "") {
         return;
     }
+
+    document.getElementById("defaultSelect").disabled = true;
 
     loadShowDetails(id);
 });
