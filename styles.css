@@ -29,3 +29,13 @@ h2 {
     margin: auto;
     margin-top: 8px;
 }
+
+#no-poster {
+    align-content: center;
+    font-weight: bold;
+    background-color: #9c9c9c;
+    margin: auto;
+    width: 200px;
+    height: 300px;
+    border-radius: 8px;
+}

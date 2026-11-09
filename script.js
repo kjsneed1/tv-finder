@@ -68,6 +68,7 @@ function displayDetails(show) {
         image.src = `https://image.tmdb.org/t/p/w500${show.poster_path}`;
     } else {
         image = document.createElement("div");
+        image.id = "no-poster";
         image.textContent = "No poster available.";
     }
 
