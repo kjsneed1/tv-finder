@@ -11,6 +11,7 @@ const requestOptions = {
 
 function fillDropdown(results) {
     showSelect.innerHTML = "";
+    showSelect.disabled = false;
 
     const defaultText = document.createElement("option");
     defaultText.textContent = "Select a show";
@@ -26,18 +27,28 @@ function fillDropdown(results) {
 }
 
 async function loadPopularShows() {
+    showSelect.innerHTML = "<option>Loading show list...</option>";
+    showSelect.disabled = true;
+
     const url = "https://api.themoviedb.org/3/tv/popular";
 
     try {
         const res = await fetch(url, requestOptions);
 
         if (!res.ok) {
-            throw new Error(`Request failed with status ${res.status}`);
+            if (res.status === 401) {
+                throw new Error(
+                    "Auth token rejected! Please update auth information.",
+                );
+            } else {
+                throw new Error(`Request failed with status ${res.status}`);
+            }
         }
 
         const data = await res.json();
         fillDropdown(data.results);
     } catch (error) {
+        showDetails.innerHTML = `<p class="error">${error}</p>`;
         console.error(error);
     }
 }
@@ -94,16 +105,25 @@ function displayDetails(show) {
 async function loadShowDetails(id) {
     const url = `https://api.themoviedb.org/3/tv/${id}`;
 
+    showDetails.innerHTML = "Loading details...";
+
     try {
         const res = await fetch(url, requestOptions);
 
         if (!res.ok) {
-            throw new Error(`Request failed with status ${res.status}`);
+            if (res.status === 401) {
+                throw new Error(
+                    "Auth token rejected! Please update auth information.",
+                );
+            } else {
+                throw new Error(`Request failed with status ${res.status}`);
+            }
         }
 
         const show = await res.json();
         displayDetails(show);
     } catch (error) {
+        showDetails.innerHTML = `<p class="error">${error}</p>`;
         console.error(error);
     }
 }
